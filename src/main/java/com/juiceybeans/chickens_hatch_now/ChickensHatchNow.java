@@ -78,7 +78,6 @@ public class ChickensHatchNow {
                 } else if (!placeState.is(ModBlocks.CHICKEN_EGG.get()) || placeState.getValue(EGGS) != 4) {
                     level.setBlock(placePos, getStateForEvent(event, placePos), ChickenEggBlock.UPDATE_ALL);
                 } else {
-                    LOGGER.info("guh");
                     event.setCanceled(true);
                     event.setCancellationResult(InteractionResult.FAIL);
                     return;
@@ -93,10 +92,11 @@ public class ChickensHatchNow {
 
             level.playSound(null, pos, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 0.7F, 0.9F + pRandom.nextFloat() * 0.2F);
             player.awardStat(Stats.ITEM_USED.get(Items.EGG));
-        }
 
-        event.setCanceled(true);
-        event.setCancellationResult(InteractionResult.SUCCESS);
+
+            event.setCanceled(true);
+            event.setCancellationResult(InteractionResult.SUCCESS);
+        }
     }
 
     public static BlockState getStateForEvent(PlayerInteractEvent.RightClickBlock event, BlockPos pos) {
