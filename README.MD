@@ -7,6 +7,9 @@ This mod also makes it so that throwing chicken eggs does NOT hatch them anymore
 
 The time taken to progress 1 hatching stage can be configured (default: 180 seconds)
 
-# Todo
-- [ ] Fix ThrownEggMixin for compat with other mods
+## Todo
+- [-] Fix ThrownEggMixin for compat with other mods
 - [ ] Use block tag for egg hatching instead
+
+## Known bugs
+- Eggs don't do damage to entities when thrown
