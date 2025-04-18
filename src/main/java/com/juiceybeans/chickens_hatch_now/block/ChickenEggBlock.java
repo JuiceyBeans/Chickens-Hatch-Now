@@ -1,5 +1,6 @@
 package com.juiceybeans.chickens_hatch_now.block;
 
+import com.juiceybeans.chickens_hatch_now.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -135,7 +136,7 @@ public class ChickenEggBlock extends Block {
             pLevel.levelEvent(2005, pPos, 0);
         }
 
-        pLevel.scheduleTick(pPos, this, 300);
+        pLevel.scheduleTick(pPos, this, (Config.hatchProgressUpdate * 20));
     }
 
     /**
