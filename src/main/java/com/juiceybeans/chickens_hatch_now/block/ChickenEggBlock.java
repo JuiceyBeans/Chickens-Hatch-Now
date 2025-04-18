@@ -186,13 +186,4 @@ public class ChickenEggBlock extends Block {
             return false;
         }
     }
-
-    public static BlockState getStateForEvent(PlayerInteractEvent.RightClickBlock event) {
-        BlockState state = event.getLevel().getBlockState(event.getPos());
-        return state.is(ModBlocks.CHICKEN_EGG.get()) ?
-                state.setValue(EGGS, Math.min(4, state.getValue(EGGS) + 1)) :
-                ModBlocks.CHICKEN_EGG.get().getStateForPlacement(
-                        new BlockPlaceContext(event.getLevel(), event.getEntity(), event.getHand(),
-                                event.getItemStack(), event.getHitVec()));
-    }
 }

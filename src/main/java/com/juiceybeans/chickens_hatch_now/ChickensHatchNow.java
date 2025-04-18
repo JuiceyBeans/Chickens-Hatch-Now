@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownEgg;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,6 +27,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+
+import static com.juiceybeans.chickens_hatch_now.block.ChickenEggBlock.EGGS;
 
 @Mod(ChickensHatchNow.MOD_ID)
 public class ChickensHatchNow {
@@ -53,7 +56,7 @@ public class ChickensHatchNow {
 
     private static void onEggThrown(ProjectileImpactEvent event) {
         if (event.getProjectile() instanceof ThrownEgg) {
-            event.setCanceled(true);
+            event.setImpactResult(ProjectileImpactEvent.ImpactResult.STOP_AT_CURRENT);
         }
     }
 
@@ -65,29 +68,50 @@ public class ChickensHatchNow {
         Level level = event.getLevel();
         BlockState state = level.getBlockState(pos);
         RandomSource pRandom = RandomSource.create();
+        BlockPos placePos = pos.offset(event.getFace().getNormal());
+        BlockState placeState = level.getBlockState(placePos);
 
         if (player.isCrouching() && itemStack.is(Items.EGG)) {
-            BlockPos placePos = pos.offset(event.getFace().getNormal());
-            if (state.is(ModBlocks.CHICKEN_EGG.get()) && state.getValue(ChickenEggBlock.EGGS) < 4) {
-                int heldEggs = state.getValue(ChickenEggBlock.EGGS);
-                BlockState newState = state.setValue(ChickenEggBlock.EGGS, heldEggs + 1);
-
-                level.playSound(null, pos, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 0.7F, 0.9F + pRandom.nextFloat() * 0.2F);
-                level.setBlock(pos, newState, ChickenEggBlock.UPDATE_ALL);
+            if (state.is(ModBlocks.CHICKEN_EGG.get())) {
+                if (state.getValue(EGGS) < 4) {
+                    level.setBlock(pos, getStateForEvent(event, pos), ChickenEggBlock.UPDATE_ALL);
+                } else if (!placeState.is(ModBlocks.CHICKEN_EGG.get()) || placeState.getValue(EGGS) != 4) {
+                    level.setBlock(placePos, getStateForEvent(event, placePos), ChickenEggBlock.UPDATE_ALL);
+                } else {
+                    LOGGER.info("guh");
+                    event.setCanceled(true);
+                    event.setCancellationResult(InteractionResult.FAIL);
+                    return;
+                }
             } else {
-                level.playSound(null, pos, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 0.7F, 0.9F + pRandom.nextFloat() * 0.2F);
-                level.setBlock(placePos, ChickenEggBlock.getStateForEvent(event), ChickenEggBlock.UPDATE_ALL);
+                level.setBlock(placePos, getStateForEvent(event, pos), ChickenEggBlock.UPDATE_ALL);
             }
 
             if (!player.isCreative()) {
                 itemStack.shrink(1);
             }
 
+            level.playSound(null, pos, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 0.7F, 0.9F + pRandom.nextFloat() * 0.2F);
             player.awardStat(Stats.ITEM_USED.get(Items.EGG));
         }
 
         event.setCanceled(true);
         event.setCancellationResult(InteractionResult.SUCCESS);
+    }
 
+    public static BlockState getStateForEvent(PlayerInteractEvent.RightClickBlock event, BlockPos pos) {
+        BlockState state = event.getLevel().getBlockState(pos);
+
+        if (state.is(ModBlocks.CHICKEN_EGG.get())) {
+            if (state.getValue(EGGS) < 4) {
+                return state.setValue(EGGS, Math.min(4, state.getValue(EGGS) + 1));
+            } else {
+                return state.setValue(EGGS, 1);
+            }
+        } else {
+            return ModBlocks.CHICKEN_EGG.get().getStateForPlacement(
+                    new BlockPlaceContext(event.getLevel(), event.getEntity(), event.getHand(),
+                            event.getItemStack(), event.getHitVec()));
+        }
     }
 }
