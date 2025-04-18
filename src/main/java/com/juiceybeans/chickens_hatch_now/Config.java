@@ -10,7 +10,7 @@ public class Config {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
     private static final ForgeConfigSpec.ConfigValue<Integer> HATCH_PROGRESS_UPDATE =
-            BUILDER.comment("Time taken to update hatching progress (in seconds)")
+            BUILDER.comment("Time taken to update hatching progress in seconds (default: 180)")
                     .define("hatch_progress_update", 180);
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
