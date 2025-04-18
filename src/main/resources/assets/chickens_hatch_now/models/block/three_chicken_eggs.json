@@ -1,0 +1,6 @@
+{
+  "parent": "chickens_hatch_now:block/template_three_chicken_eggs",
+  "textures": {
+    "all": "chickens_hatch_now:block/chicken_egg"
+  }
+}

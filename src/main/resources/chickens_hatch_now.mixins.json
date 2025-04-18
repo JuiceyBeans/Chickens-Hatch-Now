@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.juiceybeans.chickens_hatch_now.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "chickens_hatch_now.refmap.json",
+  "mixins": [
+    "EggItemMixin",
+    "ThrownEggMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "chickens_hatch_now:block/template_chicken_egg",
+  "textures": {
+    "all": "chickens_hatch_now:block/chicken_egg_very_cracked"
+  }
+}
