@@ -30,6 +30,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 import javax.annotation.Nullable;
 
@@ -186,10 +187,12 @@ public class ChickenEggBlock extends Block {
         }
     }
 
-    public static BlockState getStateForMixin(BlockPlaceContext pContext) {
-        BlockState blockstate = pContext.getLevel().getBlockState(pContext.getClickedPos());
-        return blockstate.is(ModBlocks.CHICKEN_EGG.get()) ?
-                blockstate.setValue(EGGS, Math.min(4, blockstate.getValue(EGGS) + 1)) :
-                ModBlocks.CHICKEN_EGG.get().getStateForPlacement(pContext);
+    public static BlockState getStateForEvent(PlayerInteractEvent.RightClickBlock event) {
+        BlockState state = event.getLevel().getBlockState(event.getPos());
+        return state.is(ModBlocks.CHICKEN_EGG.get()) ?
+                state.setValue(EGGS, Math.min(4, state.getValue(EGGS) + 1)) :
+                ModBlocks.CHICKEN_EGG.get().getStateForPlacement(
+                        new BlockPlaceContext(event.getLevel(), event.getEntity(), event.getHand(),
+                                event.getItemStack(), event.getHitVec()));
     }
 }

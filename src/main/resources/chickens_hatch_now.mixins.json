@@ -5,8 +5,6 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "chickens_hatch_now.refmap.json",
   "mixins": [
-    "EggItemMixin",
-    "ThrownEggMixin"
   ],
   "client": [
   ],
