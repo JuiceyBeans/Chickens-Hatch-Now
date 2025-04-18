@@ -55,7 +55,7 @@ public class ChickensHatchNow {
     }
 
     private static void onEggThrown(ProjectileImpactEvent event) {
-        if (event.getProjectile() instanceof ThrownEgg) {
+        if (event.getProjectile() instanceof ThrownEgg  && Config.disableThrownEggSpawns) {
             event.setImpactResult(ProjectileImpactEvent.ImpactResult.STOP_AT_CURRENT);
         }
     }
