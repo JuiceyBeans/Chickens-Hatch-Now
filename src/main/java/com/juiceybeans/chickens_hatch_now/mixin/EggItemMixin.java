@@ -3,7 +3,10 @@ package com.juiceybeans.chickens_hatch_now.mixin;
 import com.juiceybeans.chickens_hatch_now.block.ChickenEggBlock;
 import com.juiceybeans.chickens_hatch_now.block.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -47,14 +50,17 @@ public class EggItemMixin extends Item {
         Player pPlayer = pContext.getPlayer();
         ItemStack itemstack = pPlayer.getItemInHand(pContext.getHand());
         int initialCount = itemstack.getCount();
+        RandomSource pRandom = RandomSource.create();
 
         if (pPlayer.isCrouching()) {
             if (pState.is(ModBlocks.CHICKEN_EGG.get()) && pState.getValue(ChickenEggBlock.EGGS) < 4) {
                 int heldEggs = pState.getValue(ChickenEggBlock.EGGS);
                 BlockState newState = pState.setValue(ChickenEggBlock.EGGS, heldEggs + 1);
 
+                level.playSound(null, pPos, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 0.7F, 0.9F + pRandom.nextFloat() * 0.2F);
                 level.setBlock(pPos, newState, ChickenEggBlock.UPDATE_ALL);
             } else {
+                level.playSound(null, pPos, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 0.7F, 0.9F + pRandom.nextFloat() * 0.2F);
                 level.setBlock(pPos.above(), ChickenEggBlock.getStateForMixin(new BlockPlaceContext(pContext)), 0);
             }
             itemstack.setCount(initialCount - 1);
