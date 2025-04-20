@@ -30,7 +30,6 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
 import javax.annotation.Nullable;
 
@@ -113,6 +112,10 @@ public class ChickenEggBlock extends Block {
 
     @Override
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+        if (!onHay(pLevel, pPos)) {
+            return;
+        }
+
         if (!this.isReadyToHatch(pState)) {
             pLevel.playSound(null, pPos, SoundEvents.SNIFFER_EGG_CRACK, SoundSource.BLOCKS, 0.7F, 0.9F + pRandom.nextFloat() * 0.2F);
             pLevel.setBlock(pPos, pState.setValue(HATCH, Integer.valueOf(this.getHatchLevel(pState) + 1)), 2);
@@ -135,9 +138,8 @@ public class ChickenEggBlock extends Block {
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
         if (onHay(pLevel, pPos) && !pLevel.isClientSide) {
             pLevel.levelEvent(2005, pPos, 0);
+            pLevel.scheduleTick(pPos, this, (Config.hatchProgressUpdate * 20));
         }
-
-        pLevel.scheduleTick(pPos, this, (Config.hatchProgressUpdate * 20));
     }
 
     /**
