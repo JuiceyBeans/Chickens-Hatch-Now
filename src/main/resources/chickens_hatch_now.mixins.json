@@ -1,14 +1,13 @@
 {
   "required": true,
-  "minVersion": "0.8",
   "package": "com.juiceybeans.chickens_hatch_now.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "refmap": "chickens_hatch_now.refmap.json",
+  "compatibilityLevel": "JAVA_21",
   "mixins": [
-  ],
-  "client": [
   ],
   "injectors": {
     "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
   }
 }

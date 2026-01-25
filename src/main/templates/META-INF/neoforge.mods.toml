@@ -1,6 +1,5 @@
-modLoader = "javafml"
-loaderVersion = "${loader_version_range}"
 license = "${mod_license}"
+issueTrackerURL = "https://github.com/JuiceyBeans/Chickens-Hatch-Now/issues"
 
 [[mods]]
 modId = "${mod_id}"
@@ -8,22 +7,22 @@ version = "${mod_version}"
 displayName = "${mod_name}"
 updateJSONURL="https://github.com/JuiceyBeans/Chickens-Hatch-Now/updates.json"
 displayURL="https://modrinth.com/mod/chickens-hatch-now/"
-logoFile="icon.png"
+logoFile= "../../resources/icon.png"
 credits="The_Only_Rosalyn for wanting this mod made, GTCEu Modern devs for helping with code"
-authors = "${mod_authors}"
+authors = "JuiceyBeans"
 displayTest="MATCH_VERSION"
-description = '''${mod_description}'''
+description = "Ever thought throwing eggs to hatch chickens was stupid?"
 
 [[dependencies."${mod_id}"]]
-modId = "forge"
-mandatory = true
-versionRange = "${forge_version_range}"
+modId = "neoforge"
+type = "required"
+versionRange = "[${neo_version},)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
 modId = "minecraft"
-mandatory = true
+type = "required"
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
