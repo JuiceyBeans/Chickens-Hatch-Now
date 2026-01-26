@@ -1,8 +1,10 @@
 package com.juiceybeans.chickens_hatch_now.mixin;
 
 import com.juiceybeans.chickens_hatch_now.Config;
+
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownEgg;
 import net.minecraft.world.phys.HitResult;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

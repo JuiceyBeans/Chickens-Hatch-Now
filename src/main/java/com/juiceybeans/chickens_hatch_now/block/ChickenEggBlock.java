@@ -1,6 +1,7 @@
 package com.juiceybeans.chickens_hatch_now.block;
 
 import com.juiceybeans.chickens_hatch_now.Config;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -38,6 +39,7 @@ import net.neoforged.neoforge.event.EventHooks;
 import javax.annotation.Nullable;
 
 public class ChickenEggBlock extends Block {
+
     private static final VoxelShape ONE_EGG_AABB = Block.box(3.0D, 0.0D, 3.0D,
             12.0D, 7.0D, 12.0D);
     private static final VoxelShape MULTIPLE_EGGS_AABB = Block.box(1.0D, 0.0D, 1.0D,
@@ -83,7 +85,6 @@ public class ChickenEggBlock extends Block {
     }
 
     private void destroyEgg(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, int pChance) {
-
         if (pState.is(ModBlocks.CHICKEN_EGG) && pLevel instanceof ServerLevel serverlevel) {
             if (this.canDestroyEgg(serverlevel, pEntity) && pLevel.random.nextInt(pChance) == 0) {
                 this.decreaseEggs(serverlevel, pPos, pState);
@@ -102,7 +103,6 @@ public class ChickenEggBlock extends Block {
             pLevel.gameEvent(GameEvent.BLOCK_DESTROY, pPos, GameEvent.Context.of(pState));
             pLevel.levelEvent(2001, pPos, Block.getId(pState));
         }
-
     }
 
     public static boolean onHay(BlockGetter pLevel, BlockPos pPos) {
@@ -112,7 +112,6 @@ public class ChickenEggBlock extends Block {
     public static boolean isHay(BlockGetter pReader, BlockPos pPos) {
         return pReader.getBlockState(pPos).is(Blocks.HAY_BLOCK);
     }
-
 
     public int getHatchLevel(BlockState pState) {
         return pState.getValue(HATCH);
@@ -129,14 +128,17 @@ public class ChickenEggBlock extends Block {
         }
 
         if (!this.isReadyToHatch(pState)) {
-            pLevel.playSound(null, pPos, SoundEvents.SNIFFER_EGG_CRACK, SoundSource.BLOCKS, 0.7F, 0.9F + pRandom.nextFloat() * 0.2F);
+            pLevel.playSound(null, pPos, SoundEvents.SNIFFER_EGG_CRACK, SoundSource.BLOCKS, 0.7F,
+                    0.9F + pRandom.nextFloat() * 0.2F);
             pLevel.setBlock(pPos, pState.setValue(HATCH, Integer.valueOf(this.getHatchLevel(pState) + 1)), 2);
         } else {
-            pLevel.playSound(null, pPos, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 0.7F, 0.9F + pRandom.nextFloat() * 0.2F);
+            pLevel.playSound(null, pPos, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 0.7F,
+                    0.9F + pRandom.nextFloat() * 0.2F);
             pLevel.destroyBlock(pPos, false);
 
-            for(int j = 0; j < pState.getValue(EGGS); ++j) {
-                Chicken chicken = EntityType.CHICKEN.spawn(pLevel, new BlockPos(pPos.getX(), pPos.getY(), pPos.getZ()), EntitySpawnReason.BREEDING);
+            for (int j = 0; j < pState.getValue(EGGS); ++j) {
+                Chicken chicken = EntityType.CHICKEN.spawn(pLevel, new BlockPos(pPos.getX(), pPos.getY(), pPos.getZ()),
+                        EntitySpawnReason.BREEDING);
                 if (chicken != null) {
                     chicken.setAge(-24000);
                     chicken.setVariant(pLevel.registryAccess().holderOrThrow(VARIANT));
