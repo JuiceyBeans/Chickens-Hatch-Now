@@ -13,6 +13,7 @@ plugins {
     id 'eclipse'
     id 'net.neoforged.moddev' version '2.0.140'
     id 'idea'
+    id 'com.diffplug.spotless' version '7.0.2'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -122,6 +123,8 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
+
+apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
 dependencies {
     localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
