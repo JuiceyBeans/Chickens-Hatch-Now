@@ -2,16 +2,20 @@ package com.juiceybeans.chickens_hatch_now.block;
 
 import com.juiceybeans.chickens_hatch_now.Config;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ambient.Bat;
-import net.minecraft.world.entity.animal.Chicken;
-import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.animal.chicken.Chicken;
+import net.minecraft.world.entity.animal.chicken.ChickenVariant;
+import net.minecraft.world.entity.animal.chicken.ChickenVariants;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +26,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -30,6 +33,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nullable;
 
@@ -40,9 +44,17 @@ public class ChickenEggBlock extends Block {
             15.0D, 7.0D, 15.0D);
     public static final IntegerProperty HATCH = BlockStateProperties.HATCH;
     public static final IntegerProperty EGGS = BlockStateProperties.EGGS;
+    private static ResourceKey<ChickenVariant> VARIANT = ChickenVariants.DEFAULT;
 
-    public ChickenEggBlock(BlockBehaviour.Properties pProperties) {
+    public ChickenEggBlock(Properties pProperties) {
         super(pProperties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(HATCH, Integer.valueOf(0))
+                .setValue(EGGS, Integer.valueOf(1)));
+    }
+
+    public ChickenEggBlock(Properties properties, ResourceKey<ChickenVariant> variant) {
+        super(properties);
+        VARIANT = variant;
         this.registerDefaultState(this.stateDefinition.any().setValue(HATCH, Integer.valueOf(0))
                 .setValue(EGGS, Integer.valueOf(1)));
     }
@@ -62,7 +74,7 @@ public class ChickenEggBlock extends Block {
     }
 
     @Override
-    public void fallOn(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, float pFallDistance) {
+    public void fallOn(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, double pFallDistance) {
         if (!(pEntity instanceof Zombie)) {
             this.destroyEgg(pLevel, pState, pPos, pEntity, 3);
         }
@@ -71,16 +83,16 @@ public class ChickenEggBlock extends Block {
     }
 
     private void destroyEgg(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, int pChance) {
-        if (this.canDestroyEgg(pLevel, pEntity)) {
-            if (!pLevel.isClientSide && pLevel.random.nextInt(pChance) == 0 && pState.is(ModBlocks.CHICKEN_EGG.get())) {
-                this.decreaseEggs(pLevel, pPos, pState);
-            }
 
+        if (pState.is(ModBlocks.CHICKEN_EGG) && pLevel instanceof ServerLevel serverlevel) {
+            if (this.canDestroyEgg(serverlevel, pEntity) && pLevel.random.nextInt(pChance) == 0) {
+                this.decreaseEggs(serverlevel, pPos, pState);
+            }
         }
     }
 
     private void decreaseEggs(Level pLevel, BlockPos pPos, BlockState pState) {
-        pLevel.playSound((Player)null, pPos, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS,
+        pLevel.playSound(null, pPos, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS,
                 0.7F, 0.9F + pLevel.random.nextFloat() * 0.2F);
         int i = pState.getValue(EGGS);
         if (i <= 1) {
@@ -111,7 +123,7 @@ public class ChickenEggBlock extends Block {
     }
 
     @Override
-    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
         if (!onHay(pLevel, pPos)) {
             return;
         }
@@ -124,10 +136,10 @@ public class ChickenEggBlock extends Block {
             pLevel.destroyBlock(pPos, false);
 
             for(int j = 0; j < pState.getValue(EGGS); ++j) {
-                Chicken chicken = EntityType.CHICKEN.create(pLevel);
+                Chicken chicken = EntityType.CHICKEN.spawn(pLevel, new BlockPos(pPos.getX(), pPos.getY(), pPos.getZ()), EntitySpawnReason.BREEDING);
                 if (chicken != null) {
                     chicken.setAge(-24000);
-                    chicken.moveTo(pPos.getX(), pPos.getY(), pPos.getZ());
+                    chicken.setVariant(pLevel.registryAccess().holderOrThrow(VARIANT));
                     pLevel.addFreshEntity(chicken);
                 }
             }
@@ -136,7 +148,7 @@ public class ChickenEggBlock extends Block {
 
     @Override
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
-        if (onHay(pLevel, pPos) && !pLevel.isClientSide) {
+        if (onHay(pLevel, pPos) && !pLevel.isClientSide()) {
             pLevel.levelEvent(2005, pPos, 0);
             pLevel.scheduleTick(pPos, this, (Config.hatchProgressUpdate * 20));
         }
@@ -177,12 +189,12 @@ public class ChickenEggBlock extends Block {
         pBuilder.add(HATCH, EGGS);
     }
 
-    private boolean canDestroyEgg(Level pLevel, Entity pEntity) {
+    private boolean canDestroyEgg(ServerLevel pLevel, Entity pEntity) {
         if (!(pEntity instanceof Chicken) && !(pEntity instanceof Bat)) {
             if (!(pEntity instanceof LivingEntity)) {
                 return false;
             } else {
-                return pEntity instanceof Player || net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(pLevel, pEntity);
+                return pEntity instanceof Player || EventHooks.canEntityGrief(pLevel, pEntity);
             }
         } else {
             return false;

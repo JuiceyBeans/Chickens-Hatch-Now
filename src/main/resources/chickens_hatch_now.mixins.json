@@ -3,6 +3,7 @@
   "package": "com.juiceybeans.chickens_hatch_now.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ThrownEggMixin"
   ],
   "injectors": {
     "defaultRequire": 1
