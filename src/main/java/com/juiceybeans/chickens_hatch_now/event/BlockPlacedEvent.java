@@ -1,8 +1,10 @@
-package com.juiceybeans.chickens_hatch_now;
+package com.juiceybeans.chickens_hatch_now.event;
 
+import com.juiceybeans.chickens_hatch_now.ChickensHatchNow;
 import com.juiceybeans.chickens_hatch_now.block.ChickenEggBlock;
 import com.juiceybeans.chickens_hatch_now.block.ModBlocks;
 import com.juiceybeans.chickens_hatch_now.tag.ModTags;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,18 +20,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 import static com.juiceybeans.chickens_hatch_now.block.ChickenEggBlock.EGGS;
 
+@EventBusSubscriber(modid = ChickensHatchNow.MOD_ID)
 public class BlockPlacedEvent {
-    public static final Map<Item, Block> EGG_MAP = Map.of(
-            Items.EGG, ModBlocks.CHICKEN_EGG.get(),
-            Items.BROWN_EGG, ModBlocks.BROWN_CHICKEN_EGG.get(),
-            Items.BLUE_EGG, ModBlocks.BLUE_CHICKEN_EGG.get()
-    );
+
+    public static final Map<Item, Supplier<Block>> EGG_MAP = Map.of(
+            Items.EGG, ModBlocks.CHICKEN_EGG,
+            Items.BROWN_EGG, ModBlocks.BROWN_CHICKEN_EGG,
+            Items.BLUE_EGG, ModBlocks.BLUE_CHICKEN_EGG);
 
     @SubscribeEvent
     public static void onEggPlaced(PlayerInteractEvent.RightClickBlock event) {
@@ -43,7 +49,7 @@ public class BlockPlacedEvent {
         BlockState placeState = level.getBlockState(placePos);
 
         if (player.isCrouching() && itemStack.is(ModTags.CHICKEN_EGG_ITEMS)) {
-            Block variant = EGG_MAP.get(itemStack);
+            Block variant = EGG_MAP.get(itemStack.getItem()).get();
 
             if (state.is(ModTags.CHICKEN_EGG_BLOCKS)) {
                 if (state.getValue(EGGS) < 4) {
@@ -63,9 +69,9 @@ public class BlockPlacedEvent {
                 itemStack.shrink(1);
             }
 
-            level.playSound(null, pos, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 0.7F, 0.9F + pRandom.nextFloat() * 0.2F);
+            level.playSound(null, pos, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 0.7F,
+                    0.9F + pRandom.nextFloat() * 0.2F);
             player.awardStat(Stats.ITEM_USED.get(Items.EGG));
-
 
             event.setCanceled(true);
             event.setCancellationResult(InteractionResult.SUCCESS);
