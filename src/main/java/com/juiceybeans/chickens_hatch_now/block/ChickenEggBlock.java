@@ -1,6 +1,7 @@
 package com.juiceybeans.chickens_hatch_now.block;
 
 import com.juiceybeans.chickens_hatch_now.Config;
+import com.juiceybeans.chickens_hatch_now.util.Reference;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -20,7 +21,6 @@ import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -46,7 +46,7 @@ public class ChickenEggBlock extends Block {
             15.0D, 7.0D, 15.0D);
     public static final IntegerProperty HATCH = BlockStateProperties.HATCH;
     public static final IntegerProperty EGGS = BlockStateProperties.EGGS;
-    private static ResourceKey<ChickenVariant> VARIANT = ChickenVariants.DEFAULT;
+    private static ResourceKey<ChickenVariant> VARIANT = ChickenVariants.TEMPERATE;
 
     public ChickenEggBlock(Properties pProperties) {
         super(pProperties);
@@ -63,7 +63,7 @@ public class ChickenEggBlock extends Block {
 
     @Override
     public Item asItem() {
-        return Items.EGG;
+        return Reference.CHICKEN_VARIANT_TO_EGG.get(VARIANT);
     }
 
     @Override
