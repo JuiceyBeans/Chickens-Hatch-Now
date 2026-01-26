@@ -72,7 +72,7 @@ public class BlockPlacedEvent {
         BlockState state = event.getLevel().getBlockState(pos);
 
         // Increase egg count
-        if (state.is(ModTags.CHICKEN_EGG_BLOCKS)) {
+        if (state.is(block)) {
             if (state.getValue(EGGS) < 4) {
                 return state.setValue(EGGS, Math.min(4, state.getValue(EGGS) + 1));
             } else {

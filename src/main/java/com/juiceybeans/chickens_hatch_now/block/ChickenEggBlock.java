@@ -35,6 +35,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.event.EventHooks;
+import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nullable;
 
@@ -50,19 +51,19 @@ public class ChickenEggBlock extends Block {
 
     public ChickenEggBlock(Properties pProperties) {
         super(pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(HATCH, Integer.valueOf(0))
-                .setValue(EGGS, Integer.valueOf(1)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(HATCH, 0)
+                .setValue(EGGS, 1));
     }
 
     public ChickenEggBlock(Properties properties, ResourceKey<ChickenVariant> variant) {
         super(properties);
         VARIANT = variant;
-        this.registerDefaultState(this.stateDefinition.any().setValue(HATCH, Integer.valueOf(0))
-                .setValue(EGGS, Integer.valueOf(1)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(HATCH, 0)
+                .setValue(EGGS, 1));
     }
 
     @Override
-    public Item asItem() {
+    public @NonNull Item asItem() {
         return Reference.CHICKEN_VARIANT_TO_EGG.get(VARIANT);
     }
 
@@ -99,7 +100,7 @@ public class ChickenEggBlock extends Block {
         if (i <= 1) {
             pLevel.destroyBlock(pPos, false);
         } else {
-            pLevel.setBlock(pPos, pState.setValue(EGGS, Integer.valueOf(i - 1)), 2);
+            pLevel.setBlock(pPos, pState.setValue(EGGS, i - 1), 2);
             pLevel.gameEvent(GameEvent.BLOCK_DESTROY, pPos, GameEvent.Context.of(pState));
             pLevel.levelEvent(2001, pPos, Block.getId(pState));
         }
@@ -130,7 +131,7 @@ public class ChickenEggBlock extends Block {
         if (!this.isReadyToHatch(pState)) {
             pLevel.playSound(null, pPos, SoundEvents.SNIFFER_EGG_CRACK, SoundSource.BLOCKS, 0.7F,
                     0.9F + pRandom.nextFloat() * 0.2F);
-            pLevel.setBlock(pPos, pState.setValue(HATCH, Integer.valueOf(this.getHatchLevel(pState) + 1)), 2);
+            pLevel.setBlock(pPos, pState.setValue(HATCH, this.getHatchLevel(pState) + 1), 2);
         } else {
             pLevel.playSound(null, pPos, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 0.7F,
                     0.9F + pRandom.nextFloat() * 0.2F);
@@ -178,7 +179,7 @@ public class ChickenEggBlock extends Block {
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         BlockState blockstate = pContext.getLevel().getBlockState(pContext.getClickedPos());
         return blockstate.is(this) ? blockstate.setValue(EGGS,
-                Integer.valueOf(Math.min(4, blockstate.getValue(EGGS) + 1))) : super.getStateForPlacement(pContext);
+                Math.min(4, blockstate.getValue(EGGS) + 1)) : super.getStateForPlacement(pContext);
     }
 
     @Override
