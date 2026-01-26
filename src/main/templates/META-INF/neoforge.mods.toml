@@ -13,6 +13,9 @@ authors = "JuiceyBeans"
 displayTest="MATCH_VERSION"
 description = "Ever thought throwing eggs to hatch chickens was stupid?"
 
+[[mixins]]
+config="${mod_id}.mixins.json"
+
 [[dependencies."${mod_id}"]]
 modId = "neoforge"
 type = "required"
