@@ -8,6 +8,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 public class ModTags {
+    public static final TagKey<Block> HATCHABLE_BLOCKS = TagKey.create(
+            Registries.BLOCK,
+            ChickensHatchNow.id("chicken_hatchable"));
 
     public static final TagKey<Block> CHICKEN_EGG_BLOCKS = TagKey.create(
             Registries.BLOCK,

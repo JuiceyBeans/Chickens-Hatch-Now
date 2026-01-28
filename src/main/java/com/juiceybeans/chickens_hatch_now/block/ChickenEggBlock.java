@@ -1,6 +1,7 @@
 package com.juiceybeans.chickens_hatch_now.block;
 
 import com.juiceybeans.chickens_hatch_now.Config;
+import com.juiceybeans.chickens_hatch_now.tag.ModTags;
 import com.juiceybeans.chickens_hatch_now.util.Reference;
 
 import net.minecraft.core.BlockPos;
@@ -106,7 +107,7 @@ public class ChickenEggBlock extends Block {
     }
 
     public static boolean isHay(BlockGetter pReader, BlockPos pPos) {
-        return pReader.getBlockState(pPos).is(Blocks.HAY_BLOCK);
+        return pReader.getBlockState(pPos).is(ModTags.HATCHABLE_BLOCKS);
     }
 
     public int getHatchLevel(BlockState pState) {
