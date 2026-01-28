@@ -3,6 +3,7 @@ package com.juiceybeans.chickens_hatch_now.block;
 import com.juiceybeans.chickens_hatch_now.Config;
 import com.juiceybeans.chickens_hatch_now.tag.ModTags;
 import com.juiceybeans.chickens_hatch_now.util.Reference;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -16,7 +17,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.chicken.Chicken;
 import net.minecraft.world.entity.animal.chicken.ChickenVariant;
-import net.minecraft.world.entity.animal.chicken.ChickenVariants;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -34,6 +34,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.event.EventHooks;
+
 import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nullable;
@@ -46,18 +47,22 @@ public class ChickenEggBlock extends Block {
             15.0D, 7.0D, 15.0D);
     public static final IntegerProperty HATCH = BlockStateProperties.HATCH;
     public static final IntegerProperty EGGS = BlockStateProperties.EGGS;
-    private static ResourceKey<ChickenVariant> VARIANT = ChickenVariants.TEMPERATE;
+    private final ResourceKey<ChickenVariant> variant;
 
     public ChickenEggBlock(Properties properties, ResourceKey<ChickenVariant> variant) {
         super(properties);
-        VARIANT = variant;
+        this.variant = variant;
         this.registerDefaultState(this.stateDefinition.any().setValue(HATCH, 0)
                 .setValue(EGGS, 1));
     }
 
     @Override
     public @NonNull Item asItem() {
-        return Reference.CHICKEN_VARIANT_TO_EGG.get(VARIANT);
+        return Reference.CHICKEN_VARIANT_TO_EGG.get(this.variant);
+    }
+
+    private ResourceKey<ChickenVariant> getVariant() {
+        return this.variant;
     }
 
     @Override
@@ -135,7 +140,7 @@ public class ChickenEggBlock extends Block {
                         EntitySpawnReason.BREEDING);
                 if (chicken != null) {
                     chicken.setAge(-24000);
-                    chicken.setVariant(pLevel.registryAccess().holderOrThrow(VARIANT));
+                    chicken.setVariant(pLevel.registryAccess().holderOrThrow(variant));
                     pLevel.addFreshEntity(chicken);
                 }
             }

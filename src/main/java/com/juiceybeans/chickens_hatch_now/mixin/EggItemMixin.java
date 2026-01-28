@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import org.jspecify.annotations.NonNull;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 
 import static com.juiceybeans.chickens_hatch_now.block.ChickenEggBlock.EGGS;
 
@@ -59,7 +58,8 @@ public abstract class EggItemMixin extends Item {
 
                 // Check if offset block is not an egg block, or does not have 4 eggs
             } else if (offsetState.is(ModTags.CHICKEN_EGG_BLOCKS) && getEggCount(offsetState) < 4) {
-                level.setBlock(offsetPos, offsetState.setValue(EGGS, getEggCount(offsetState) + 1), ChickenEggBlock.UPDATE_ALL);
+                level.setBlock(offsetPos, offsetState.setValue(EGGS, getEggCount(offsetState) + 1),
+                        ChickenEggBlock.UPDATE_ALL);
             } else if (!offsetState.is(ModTags.CHICKEN_EGG_BLOCKS) && offsetState.canBeReplaced()) {
                 level.setBlock(offsetPos, variantBlock.getStateForPlacement(placeContext), ChickenEggBlock.UPDATE_ALL);
             } else return InteractionResult.FAIL;
