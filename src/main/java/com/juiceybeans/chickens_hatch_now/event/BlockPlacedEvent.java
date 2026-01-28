@@ -1,6 +1,5 @@
 package com.juiceybeans.chickens_hatch_now.event;
 
-import com.juiceybeans.chickens_hatch_now.ChickensHatchNow;
 import com.juiceybeans.chickens_hatch_now.block.ChickenEggBlock;
 import com.juiceybeans.chickens_hatch_now.tag.ModTags;
 import com.juiceybeans.chickens_hatch_now.util.Reference;
@@ -18,16 +17,14 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 import static com.juiceybeans.chickens_hatch_now.block.ChickenEggBlock.EGGS;
 
-@EventBusSubscriber(modid = ChickensHatchNow.MOD_ID)
+// @EventBusSubscriber(modid = ChickensHatchNow.MOD_ID)
 public class BlockPlacedEvent {
 
-    @SubscribeEvent
+    // @SubscribeEvent
     public static void onEggPlaced(PlayerInteractEvent.RightClickBlock event) {
         Player player = event.getEntity();
         ItemStack itemStack = event.getItemStack();

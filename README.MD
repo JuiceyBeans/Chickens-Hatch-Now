@@ -9,7 +9,10 @@ The time taken to progress 1 hatching stage can be configured as well (default: 
 
 ## Todo
 - [x] Fix ThrownEggMixin for compat with other mods
-- [ ] Use block tag for egg hatching instead
+- [x] Use block tag for egg hatching instead
+- [ ] Fix wack egg placement logic
+- [ ] Fix ChickenEggBlock#asItem defaulting to brown egg everytime
+- [ ] Textures for brown and blue eggs
 
 ## Known bugs
 - Eggs don't do damage to entities when thrown

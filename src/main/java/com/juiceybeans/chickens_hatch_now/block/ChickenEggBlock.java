@@ -35,6 +35,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.event.EventHooks;
+
 import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nullable;
@@ -48,12 +49,6 @@ public class ChickenEggBlock extends Block {
     public static final IntegerProperty HATCH = BlockStateProperties.HATCH;
     public static final IntegerProperty EGGS = BlockStateProperties.EGGS;
     private static ResourceKey<ChickenVariant> VARIANT = ChickenVariants.TEMPERATE;
-
-    public ChickenEggBlock(Properties pProperties) {
-        super(pProperties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(HATCH, 0)
-                .setValue(EGGS, 1));
-    }
 
     public ChickenEggBlock(Properties properties, ResourceKey<ChickenVariant> variant) {
         super(properties);
