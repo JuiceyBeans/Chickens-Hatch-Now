@@ -49,11 +49,7 @@ public abstract class EggItemMixin extends Item {
         BlockPos offsetPos = pos.relative(context.getClickedFace());
         BlockState offsetState = level.getBlockState(offsetPos);
 
-//        if (!level.getBlockState(offsetPos).canBeReplaced()) {
-//            return InteractionResult.FAIL;
-//        }
-
-        Block variant = Reference.EGG_ITEM_TO_BLOCK.get(this.asItem()).get();
+        Block variantBlock = Reference.EGG_ITEM_TO_BLOCK.get(this.asItem()).get();
 
         // Check if clicked block is already an egg block
         if (state.is(ModTags.CHICKEN_EGG_BLOCKS)) {
@@ -65,11 +61,11 @@ public abstract class EggItemMixin extends Item {
             } else if (offsetState.is(ModTags.CHICKEN_EGG_BLOCKS) && getEggCount(offsetState) < 4) {
                 level.setBlock(offsetPos, offsetState.setValue(EGGS, getEggCount(offsetState) + 1), ChickenEggBlock.UPDATE_ALL);
             } else if (!offsetState.is(ModTags.CHICKEN_EGG_BLOCKS) && offsetState.canBeReplaced()) {
-                level.setBlock(offsetPos, variant.getStateForPlacement(placeContext), ChickenEggBlock.UPDATE_ALL);
+                level.setBlock(offsetPos, variantBlock.getStateForPlacement(placeContext), ChickenEggBlock.UPDATE_ALL);
             } else return InteractionResult.FAIL;
             // If clicked block is not an egg block
         } else {
-            level.setBlock(offsetPos, variant.getStateForPlacement(placeContext),
+            level.setBlock(offsetPos, variantBlock.getStateForPlacement(placeContext),
                     ChickenEggBlock.UPDATE_ALL);
         }
 
@@ -86,21 +82,5 @@ public abstract class EggItemMixin extends Item {
 
     private static @NonNull Integer getEggCount(BlockState state) {
         return state.getValue(EGGS);
-    }
-
-    @Unique
-    private static BlockState chickenshatchnow$getEggBlockState(BlockPlaceContext context, BlockState state,
-                                                                Block eggVariantBlock) {
-        // Check if block is egg block
-        if (state.is(eggVariantBlock)) {
-            // Check if less than 4 eggs
-            if (state.getValue(EGGS) < 4) {
-                return state.setValue(EGGS, state.getValue(EGGS) + 1);
-            } else {
-                return state.setValue(EGGS, 1);
-            }
-        } else { // Place new egg
-            return eggVariantBlock.getStateForPlacement(context);
-        }
     }
 }
