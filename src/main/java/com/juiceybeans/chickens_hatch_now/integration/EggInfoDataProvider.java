@@ -12,9 +12,9 @@ import org.jspecify.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.StreamServerDataProvider;
 
-public class EggComponentProvider implements StreamServerDataProvider<BlockAccessor, Integer> {
+public class EggInfoDataProvider implements StreamServerDataProvider<BlockAccessor, Integer> {
 
-    public static final EggComponentProvider INSTANCE = new EggComponentProvider();
+    public static final EggInfoDataProvider INSTANCE = new EggInfoDataProvider();
 
     @Override
     public @Nullable Integer streamData(BlockAccessor blockAccessor) {

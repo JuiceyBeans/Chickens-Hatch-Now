@@ -12,13 +12,11 @@ import snownee.jade.api.config.IPluginConfig;
 
 import java.util.Optional;
 
-public class EggDataProvider implements IBlockComponentProvider {
-
-    public static final EggDataProvider INSTANCE = new EggDataProvider();
+public class EggInfoComponentProvider implements IBlockComponentProvider {
 
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-        Optional<Integer> hatch_progress = EggComponentProvider.INSTANCE.decodeFromData(blockAccessor);
+        Optional<Integer> hatch_progress = EggInfoDataProvider.INSTANCE.decodeFromData(blockAccessor);
 
         hatch_progress.ifPresent(i -> tooltip.add(Component.translatable("chicken_hatch_now.jade.hatch_progress", i)));
     }

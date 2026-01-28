@@ -12,11 +12,11 @@ public class CHNJadePlugin implements IWailaPlugin {
 
     @Override
     public void register(IWailaCommonRegistration registration) {
-        registration.registerBlockDataProvider(new EggComponentProvider(), Block.class);
+        registration.registerBlockDataProvider(new EggInfoDataProvider(), Block.class);
     }
 
     @Override
     public void registerClient(IWailaClientRegistration registration) {
-        registration.registerBlockComponent(new EggDataProvider(), Block.class);
+        registration.registerBlockComponent(new EggInfoComponentProvider(), Block.class);
     }
 }
