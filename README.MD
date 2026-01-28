@@ -13,6 +13,4 @@ The time taken to progress 1 hatching stage can be configured as well (default: 
 - [ ] Fix wack egg placement logic
 - [ ] Fix ChickenEggBlock#asItem defaulting to brown egg everytime
 - [ ] Textures for brown and blue eggs
-
-## Known bugs
-- Eggs don't do damage to entities when thrown
+- [ ] Egg projectile spawns aren't disabled when config is on
