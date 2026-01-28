@@ -5,6 +5,7 @@ import com.juiceybeans.chickens_hatch_now.tag.ModTags;
 import com.juiceybeans.chickens_hatch_now.util.Reference;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -24,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -61,10 +63,6 @@ public class ChickenEggBlock extends Block {
         return Reference.CHICKEN_VARIANT_TO_EGG.get(this.variant);
     }
 
-    private ResourceKey<ChickenVariant> getVariant() {
-        return this.variant;
-    }
-
     @Override
     public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity) {
         if (!pEntity.isSteppingCarefully()) {
@@ -84,7 +82,7 @@ public class ChickenEggBlock extends Block {
     }
 
     private void destroyEgg(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, int pChance) {
-        if (pState.is(ModBlocks.CHICKEN_EGG) && pLevel instanceof ServerLevel serverlevel) {
+        if (pState.is(ModTags.CHICKEN_EGG_BLOCKS) && pLevel instanceof ServerLevel serverlevel) {
             if (this.canDestroyEgg(serverlevel, pEntity) && pLevel.random.nextInt(pChance) == 0) {
                 this.decreaseEggs(serverlevel, pPos, pState);
             }
