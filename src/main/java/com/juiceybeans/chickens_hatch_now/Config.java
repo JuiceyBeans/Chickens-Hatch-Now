@@ -3,27 +3,36 @@ package com.juiceybeans.chickens_hatch_now;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class Config {
 
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+    public static final Config CONFIG;
+    public static final ModConfigSpec CONFIG_SPEC;
 
-    private static final ModConfigSpec.ConfigValue<Integer> HATCH_PROGRESS_UPDATE = BUILDER
-            .comment("Time taken to update hatching progress in seconds (default: 180)")
-            .define("hatch_progress_update", 180);
+    public final ModConfigSpec.ConfigValue<Integer> HATCH_PROGRESS_UPDATE;
+    public final ModConfigSpec.ConfigValue<Boolean> DISABLE_THROWN_EGG_SPAWNS;
 
-    private static final ModConfigSpec.ConfigValue<Boolean> DISABLE_THROWN_EGG_SPAWNS = BUILDER
-            .comment("Disable chickens spawning from thrown eggs (default: true)")
-            .define("disable_thrown_egg_spawns", true);
+    private Config(ModConfigSpec.Builder builder) {
+        HATCH_PROGRESS_UPDATE = builder
+                .translation("config.chickens_hatch_now.hatch_progress_update")
+                .comment("Time taken to update hatching progress in seconds (default: 180)")
+                .gameRestart()
+                .define("hatch_progress_update", 180);
 
-    static final ModConfigSpec SPEC = BUILDER.build();
+        DISABLE_THROWN_EGG_SPAWNS = builder
+                .translation("config.chickens_hatch_now.disable_thrown_egg_spawns")
+                .comment("Disable chickens spawning from thrown eggs (default: true)")
+                .gameRestart()
+                .define("disable_thrown_egg_spawns", true);
 
-    public static int hatchProgressUpdate;
-    public static boolean disableThrownEggSpawns;
+    }
 
-    @SubscribeEvent
-    static void onLoad(final ModConfigEvent event) {
-        hatchProgressUpdate = HATCH_PROGRESS_UPDATE.get();
-        disableThrownEggSpawns = DISABLE_THROWN_EGG_SPAWNS.get();
+    static {
+        Pair<Config, ModConfigSpec> pair =
+                new ModConfigSpec.Builder().configure(Config::new);
+
+        CONFIG = pair.getLeft();
+        CONFIG_SPEC = pair.getRight();
     }
 }

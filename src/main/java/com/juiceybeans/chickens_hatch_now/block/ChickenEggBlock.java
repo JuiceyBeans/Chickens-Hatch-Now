@@ -147,7 +147,7 @@ public class ChickenEggBlock extends Block {
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
         if (onHay(pLevel, pPos) && !pLevel.isClientSide()) {
             pLevel.levelEvent(2005, pPos, 0);
-            pLevel.scheduleTick(pPos, this, (Config.hatchProgressUpdate * 20));
+            pLevel.scheduleTick(pPos, this, (Config.CONFIG.HATCH_PROGRESS_UPDATE.get() * 20));
         }
     }
 

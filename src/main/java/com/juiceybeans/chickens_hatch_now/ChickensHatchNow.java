@@ -24,6 +24,6 @@ public class ChickensHatchNow {
     public ChickensHatchNow(IEventBus bus, ModContainer container) {
         ModBlocks.BLOCKS.register(bus);
 
-        container.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        container.registerConfig(ModConfig.Type.COMMON, Config.CONFIG_SPEC);
     }
 }
