@@ -1,13 +1,12 @@
 package com.juiceybeans.chickens_hatch_now;
 
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 public class Config {
 
-    public static final Config CONFIG;
+    public static final Config INSTANCE;
     public static final ModConfigSpec CONFIG_SPEC;
 
     public final ModConfigSpec.ConfigValue<Integer> HATCH_PROGRESS_UPDATE;
@@ -25,14 +24,12 @@ public class Config {
                 .comment("Disable chickens spawning from thrown eggs (default: true)")
                 .gameRestart()
                 .define("disable_thrown_egg_spawns", true);
-
     }
 
     static {
-        Pair<Config, ModConfigSpec> pair =
-                new ModConfigSpec.Builder().configure(Config::new);
+        Pair<Config, ModConfigSpec> pair = new ModConfigSpec.Builder().configure(Config::new);
 
-        CONFIG = pair.getLeft();
+        INSTANCE = pair.getLeft();
         CONFIG_SPEC = pair.getRight();
     }
 }
