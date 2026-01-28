@@ -59,14 +59,11 @@ public abstract class EggItemMixin extends Item {
         if (state.is(ModTags.CHICKEN_EGG_BLOCKS)) {
             // Check if egg block has less than 4 eggs
             if (getEggCount(state) < 4) {
-                state.setValue(EGGS, getEggCount(state) + 1);
-                // level.setBlock(pos, state.setValue(EGGS, getEggCount(state) + 1), ChickenEggBlock.UPDATE_ALL);
+                level.setBlock(pos, state.setValue(EGGS, getEggCount(state) + 1), ChickenEggBlock.UPDATE_ALL);
 
                 // Check if offset block is not an egg block, or does not have 4 eggs
             } else if (offsetState.is(ModTags.CHICKEN_EGG_BLOCKS) && getEggCount(offsetState) < 4) {
-                offsetState.setValue(EGGS, getEggCount(offsetState) + 1);
-                // level.setBlock(offsetPos, offsetState.setValue(EGGS, getEggCount(offsetState) + 1),
-                // ChickenEggBlock.UPDATE_ALL);
+                level.setBlock(offsetPos, offsetState.setValue(EGGS, getEggCount(offsetState) + 1), ChickenEggBlock.UPDATE_ALL);
             } else if (!offsetState.is(ModTags.CHICKEN_EGG_BLOCKS) && offsetState.canBeReplaced()) {
                 level.setBlock(offsetPos, variant.getStateForPlacement(placeContext), ChickenEggBlock.UPDATE_ALL);
             } else return InteractionResult.FAIL;
