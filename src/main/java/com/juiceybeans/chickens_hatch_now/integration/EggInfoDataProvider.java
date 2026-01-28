@@ -18,7 +18,7 @@ public class EggInfoDataProvider implements StreamServerDataProvider<BlockAccess
 
     @Override
     public @Nullable Integer streamData(BlockAccessor blockAccessor) {
-        return blockAccessor.getBlockState().getValue(BlockStateProperties.HATCH);
+        return blockAccessor.getBlockState().getOptionalValue(BlockStateProperties.HATCH).orElse(null);
     }
 
     @Override
