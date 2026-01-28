@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ThrownEgg.class)
 public class ThrownEggMixin {
 
-    @Inject(method = "onHit", at = @At(value = "HEAD"))
-    private static void cancelSpawn(HitResult result, CallbackInfo ci) {
+    @Inject(method = "onHit", at = @At(value = "HEAD"), cancellable = true)
+    private void cancelSpawn(HitResult result, CallbackInfo ci) {
         if (Config.disableThrownEggSpawns) {
             ci.cancel();
         }

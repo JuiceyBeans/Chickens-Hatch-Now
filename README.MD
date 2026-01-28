@@ -11,6 +11,6 @@ The time taken to progress 1 hatching stage can be configured as well (default: 
 - [x] Fix ThrownEggMixin for compat with other mods
 - [x] Use block tag for egg hatching instead
 - [x] Fix wack egg placement logic
-- [ ] Fix ChickenEggBlock#asItem defaulting to brown egg everytime
+- [x] Fix ChickenEggBlock#asItem defaulting to brown egg everytime
 - [ ] Textures for brown and blue eggs
 - [ ] Egg projectile spawns aren't disabled when config is on

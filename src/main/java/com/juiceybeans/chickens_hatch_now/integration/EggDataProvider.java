@@ -1,8 +1,10 @@
 package com.juiceybeans.chickens_hatch_now.integration;
 
 import com.juiceybeans.chickens_hatch_now.ChickensHatchNow;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
@@ -11,6 +13,7 @@ import snownee.jade.api.config.IPluginConfig;
 import java.util.Optional;
 
 public class EggDataProvider implements IBlockComponentProvider {
+
     public static final EggDataProvider INSTANCE = new EggDataProvider();
 
     @Override
