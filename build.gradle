@@ -53,6 +53,8 @@ minecraft {
 
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
         }
 
         server {
@@ -94,7 +96,7 @@ dependencies {
     annotationProcessor "org.spongepowered:mixin:0.8.7:processor"
 
     runtimeOnly fg.deobf("dev.emi:emi-forge:${emi_version}+${minecraft_version}")
-    runtimeOnly fg.deobf("maven.modrinth:jade:${jade_version}+forge")
+    implementation fg.deobf("maven.modrinth:jade:${jade_version}+forge")
 }
 
 mixin {

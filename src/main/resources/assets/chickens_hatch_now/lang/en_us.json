@@ -1,0 +1,13 @@
+{
+  "chickens_hatch_now.configuration.title": "Chickens Hatch Now Config",
+  "chickens_hatch_now.configuration.section.chickens.hatch.now.common.toml": "Chickens Hatch Now Common Config",
+  "chickens_hatch_now.configuration.section.chickens.hatch.now.common.toml.title": "Chickens Hatch Now Common Config",
+
+  "config.chickens_hatch_now.hatch_progress_update": "Hatching Progress Update",
+  "config.chickens_hatch_now.hatch_progress_update.tooltip": "Time taken to update hatching progress in seconds (default: 180)",
+  "config.chickens_hatch_now.disable_thrown_egg_spawns": "Disable Thrown Egg Spawns",
+  "config.chickens_hatch_now.disable_thrown_egg_spawns.tooltip": "Disable chickens spawning from thrown eggs (default: true)",
+
+  "config.jade.plugin_chickens_hatch_now.egg_info": "Egg Info",
+  "chicken_hatch_now.jade.hatch_progress": "Hatch Progress: %s/3"
+}
