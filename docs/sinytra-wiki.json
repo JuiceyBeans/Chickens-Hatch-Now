@@ -5,7 +5,7 @@
         "modrinth": "chickens-hatch-now"
     },
     "modid": "chickens-hatch-now",
-    "owners": "JuiceyBeans",
+    "owners": ["JuiceyBeans"],
     "versions": {
         "1.20.1": "1.20.1",
         "1.21.11": "1.21.11"
