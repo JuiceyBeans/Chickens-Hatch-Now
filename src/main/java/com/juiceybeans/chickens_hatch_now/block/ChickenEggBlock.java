@@ -81,7 +81,7 @@ public class ChickenEggBlock extends Block {
 
     private void destroyEgg(Level pLevel, BlockState pState, BlockPos pPos, Entity pEntity, int pChance) {
         if (pState.is(ModTags.CHICKEN_EGG_BLOCKS) && pLevel instanceof ServerLevel serverlevel) {
-            if (this.canDestroyEgg(serverlevel, pEntity) && pLevel.random.nextInt(pChance) == 0) {
+            if (this.canDestroyEgg(serverlevel, pEntity) && pLevel.getRandom().nextInt(pChance) == 0) {
                 this.decreaseEggs(serverlevel, pPos, pState);
             }
         }
@@ -89,7 +89,7 @@ public class ChickenEggBlock extends Block {
 
     private void decreaseEggs(Level pLevel, BlockPos pPos, BlockState pState) {
         pLevel.playSound(null, pPos, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS,
-                0.7F, 0.9F + pLevel.random.nextFloat() * 0.2F);
+                0.7F, 0.9F + pLevel.getRandom().nextFloat() * 0.2F);
         int i = pState.getValue(EGGS);
         if (i <= 1) {
             pLevel.destroyBlock(pPos, false);
