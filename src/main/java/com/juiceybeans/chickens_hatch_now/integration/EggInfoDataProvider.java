@@ -1,6 +1,6 @@
 package com.juiceybeans.chickens_hatch_now.integration;
 
-import com.juiceybeans.chickens_hatch_now.ChickensHatchNow;
+/*import com.juiceybeans.chickens_hatch_now.ChickensHatchNow;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -30,4 +30,4 @@ public class EggInfoDataProvider implements StreamServerDataProvider<BlockAccess
     public Identifier getUid() {
         return ChickensHatchNow.id("egg_info");
     }
-}
+}*/

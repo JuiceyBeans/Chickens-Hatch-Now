@@ -1,6 +1,6 @@
 package com.juiceybeans.chickens_hatch_now.integration;
 
-import net.minecraft.world.level.block.Block;
+/*import net.minecraft.world.level.block.Block;
 
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
@@ -19,4 +19,4 @@ public class CHNJadePlugin implements IWailaPlugin {
     public void registerClient(IWailaClientRegistration registration) {
         registration.registerBlockComponent(new EggInfoComponentProvider(), Block.class);
     }
-}
+}*/

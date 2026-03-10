@@ -1,6 +1,6 @@
 package com.juiceybeans.chickens_hatch_now.integration;
 
-import com.juiceybeans.chickens_hatch_now.ChickensHatchNow;
+/*import com.juiceybeans.chickens_hatch_now.ChickensHatchNow;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -25,4 +25,4 @@ public class EggInfoComponentProvider implements IBlockComponentProvider {
     public Identifier getUid() {
         return ChickensHatchNow.id("egg_info");
     }
-}
+}*/
