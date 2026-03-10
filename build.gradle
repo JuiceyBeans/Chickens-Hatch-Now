@@ -51,16 +51,11 @@ base {
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
 }
 
 neoForge {
     version = project.neo_version
-
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
 
     // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -127,8 +122,8 @@ configurations {
 apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
 dependencies {
-    localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
-    implementation "maven.modrinth:jade:${jade_version}+neoforge"
+    // localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+    // implementation "maven.modrinth:jade:${jade_version}+neoforge"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
