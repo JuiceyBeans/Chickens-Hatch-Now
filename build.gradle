@@ -26,7 +26,7 @@ tasks.named('wrapper', Wrapper).configure {
 }
 
 group = mod_group_id
-version = mod_version
+version = "${minecraft_version}-${mod_version}"
 
 repositories {
     maven { // CF
