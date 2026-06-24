@@ -10,10 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.chicken.Chicken;
 import net.minecraft.world.entity.animal.chicken.ChickenVariant;
@@ -132,7 +129,7 @@ public class ChickenEggBlock extends Block {
             pLevel.destroyBlock(pPos, false);
 
             for (int j = 0; j < pState.getValue(EGGS); ++j) {
-                Chicken chicken = EntityType.CHICKEN.spawn(pLevel, new BlockPos(pPos.getX(), pPos.getY(), pPos.getZ()),
+                Chicken chicken = EntityTypes.CHICKEN.spawn(pLevel, new BlockPos(pPos.getX(), pPos.getY(), pPos.getZ()),
                         EntitySpawnReason.BREEDING);
                 if (chicken != null) {
                     chicken.setAge(-24000);
